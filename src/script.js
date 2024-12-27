@@ -32,7 +32,7 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
  */
 const fontLoader = new FontLoader();
 
-fontLoader.load("/fonts/englebert.json", (font) => {
+fontLoader.load("/fonts/poly.json", (font) => {
 	// Material
 	const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
@@ -41,32 +41,57 @@ fontLoader.load("/fonts/englebert.json", (font) => {
 		font: font,
 		size: 0.3,
 		depth: 0.2,
-		curveSegments: 30,
+		curveSegments: 25,
 		bevelEnabled: true,
 		bevelThickness: 0.03,
 		bevelSize: 0.02,
 		bevelOffset: 0,
-		bevelSegments: 15,
+		bevelSegments: 20,
 	});
 	textGeometry.center();
 
 	const text = new THREE.Mesh(textGeometry, material);
 	scene.add(text);
 
-	// Donuts
-	const donutGeometry = new THREE.TorusGeometry(0.2, 0.1, 32, 64);
+	const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64);
+	const sphereGeometry = new THREE.SphereGeometry(0.3, 30, 20);
+	const cubeGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
 	for (let i = 0; i < 100; i++) {
 		const donut = new THREE.Mesh(donutGeometry, material);
-		donut.position.x = (Math.random() - 0.5) * 10;
-		donut.position.y = (Math.random() - 0.5) * 10;
-		donut.position.z = (Math.random() - 0.5) * 10;
+		donut.position.x = (Math.random() - 0.5) * 15;
+		donut.position.y = (Math.random() - 0.5) * 15;
+		donut.position.z = (Math.random() - 0.5) * 15;
 		donut.rotation.x = Math.random() * Math.PI;
 		donut.rotation.y = Math.random() * Math.PI;
 		const scale = Math.random();
 		donut.scale.set(scale, scale, scale);
 
 		scene.add(donut);
+	}
+	for (let i = 0; i < 100; i++) {
+		const sphere = new THREE.Mesh(sphereGeometry, material);
+		sphere.position.x = (Math.random() - 0.5) * 15;
+		sphere.position.y = (Math.random() - 0.5) * 15;
+		sphere.position.z = (Math.random() - 0.5) * 15;
+		sphere.rotation.x = Math.random() * Math.PI;
+		sphere.rotation.y = Math.random() * Math.PI;
+		const scale = Math.random();
+		sphere.scale.set(scale, scale, scale);
+
+		scene.add(sphere);
+	}
+	for (let i = 0; i < 100; i++) {
+		const cube = new THREE.Mesh(cubeGeometry, material);
+		cube.position.x = (Math.random() - 0.5) * 15;
+		cube.position.y = (Math.random() - 0.5) * 15;
+		cube.position.z = (Math.random() - 0.5) * 15;
+		cube.rotation.x = Math.random() * Math.PI;
+		cube.rotation.y = Math.random() * Math.PI;
+		const scale = Math.random();
+		cube.scale.set(scale, scale, scale);
+
+		scene.add(cube);
 	}
 });
 
