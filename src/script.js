@@ -81,7 +81,10 @@ fontLoader.load("/fonts/poly.json", (font) => {
 	const cubeGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
 	for (let i = 0; i < 75; i++) {
-		const donut = new THREE.Mesh(donutGeometry, material);
+		const donut = new THREE.Mesh(
+			donutGeometry,
+			new THREE.MeshNormalMaterial()
+		);
 		donut.position.x = (Math.random() - 0.5) * 15;
 		donut.position.y = (Math.random() - 0.5) * 15;
 		donut.position.z = (Math.random() - 0.5) * 15;
@@ -93,7 +96,10 @@ fontLoader.load("/fonts/poly.json", (font) => {
 		scene.add(donut);
 	}
 	for (let i = 0; i < 300; i++) {
-		const sphere = new THREE.Mesh(sphereGeometry, material);
+		const sphere = new THREE.Mesh(
+			sphereGeometry,
+			new THREE.MeshNormalMaterial()
+		);
 		sphere.position.x = (Math.random() - 0.5) * 15;
 		sphere.position.y = (Math.random() - 0.5) * 15;
 		sphere.position.z = (Math.random() - 0.5) * 15;
@@ -105,7 +111,10 @@ fontLoader.load("/fonts/poly.json", (font) => {
 		scene.add(sphere);
 	}
 	for (let i = 0; i < 75; i++) {
-		const cube = new THREE.Mesh(cubeGeometry, material);
+		const cube = new THREE.Mesh(
+			cubeGeometry,
+			new THREE.MeshNormalMaterial()
+		);
 		cube.position.x = (Math.random() - 0.5) * 15;
 		cube.position.y = (Math.random() - 0.5) * 15;
 		cube.position.z = (Math.random() - 0.5) * 15;
