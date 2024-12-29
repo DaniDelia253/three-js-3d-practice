@@ -60,7 +60,7 @@ fontLoader.load("/fonts/poly.json", (font) => {
 	material.roughnessMap = roughnessTexture;
 
 	// Text
-	const textGeometry = new TextGeometry("Merry Christmas", {
+	const textGeometry = new TextGeometry("Happy New Year", {
 		font: font,
 		size: 0.3,
 		depth: 0.2,
