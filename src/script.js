@@ -97,8 +97,8 @@ const renderText = () => {
 	});
 	textGeometry.center();
 
-	// const text = new THREE.Mesh(textGeometry, new THREE.MeshNormalMaterial());
-	textMesh = new THREE.Mesh(textGeometry, material);
+	textMesh = new THREE.Mesh(textGeometry, new THREE.MeshNormalMaterial());
+	// textMesh = new THREE.Mesh(textGeometry, material);
 	scene.add(textMesh);
 };
 
