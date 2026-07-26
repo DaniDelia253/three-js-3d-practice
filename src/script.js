@@ -28,39 +28,20 @@ scene.add(ambientLight, pointLight);
 
 // Textures
 const textureLoader = new THREE.TextureLoader();
-// const matcapTexture = textureLoader.load("textures/matcaps/8.png");
-// matcapTexture.colorSpace = THREE.SRGBColorSpace;
-const colorTexture = textureLoader.load(
-	"./textures/ChristmasTreeOrnament/ChristmasTreeOrnament_Color.png"
+const matcapTexture = textureLoader.load(
+	"textures/matcaps/6D1616_E6CDBA_DE2B24_230F0F-512px.png",
 );
-colorTexture.colorSpace = THREE.SRGBColorSpace;
-const displacementTexture = textureLoader.load(
-	"./textures/ChristmasTreeOrnament/ChristmasTreeOrnament_Displacement.png"
-);
-// no height
-const normalTexture = textureLoader.load(
-	"./textures/ChristmasTreeOrnament/ChristmasTreeOrnament_NormalGL.png"
-);
-const roughnessTexture = textureLoader.load(
-	"./textures/ChristmasTreeOrnament/ChristmasTreeOrnament_Roughness.png"
-);
-const metalnessTexture = textureLoader.load(
-	"./textures/ChristmasTreeOrnament/ChristmasTreeOrnament_Metalness.png"
-);
+matcapTexture.colorSpace = THREE.SRGBColorSpace;
 
 // Fonts
 const fontLoader = new FontLoader();
 
 fontLoader.load("/fonts/poly.json", (font) => {
 	// Material
-	// const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
-	const material = new THREE.MeshStandardMaterial();
-	material.map = colorTexture;
-	material.metalnessMap = metalnessTexture;
-	material.roughnessMap = roughnessTexture;
+	const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
 	// Text
-	const textGeometry = new TextGeometry("Happy New Year", {
+	const textGeometry = new TextGeometry("Happy July", {
 		font: font,
 		size: 0.3,
 		depth: 0.2,
@@ -73,21 +54,22 @@ fontLoader.load("/fonts/poly.json", (font) => {
 	});
 	textGeometry.center();
 
-	const text = new THREE.Mesh(textGeometry, new THREE.MeshNormalMaterial());
+	// const text = new THREE.Mesh(textGeometry, new THREE.MeshNormalMaterial());
+	const text = new THREE.Mesh(textGeometry, material);
 	scene.add(text);
 
 	const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64);
 	const sphereGeometry = new THREE.SphereGeometry(0.3, 30, 20);
 	const cubeGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
-	for (let i = 0; i < 75; i++) {
+	for (let i = 0; i < 300; i++) {
 		const donut = new THREE.Mesh(
 			donutGeometry,
-			new THREE.MeshNormalMaterial()
+			new THREE.MeshNormalMaterial(),
 		);
-		donut.position.x = (Math.random() - 0.5) * 15;
-		donut.position.y = (Math.random() - 0.5) * 15;
-		donut.position.z = (Math.random() - 0.5) * 15;
+		donut.position.x = (Math.random() - 0.5) * 50;
+		donut.position.y = (Math.random() - 0.5) * 50;
+		donut.position.z = (Math.random() - 0.5) * 50;
 		donut.rotation.x = Math.random() * Math.PI;
 		donut.rotation.y = Math.random() * Math.PI;
 		const scale = Math.random();
@@ -95,14 +77,26 @@ fontLoader.load("/fonts/poly.json", (font) => {
 
 		scene.add(donut);
 	}
-	for (let i = 0; i < 300; i++) {
+	for (let i = 0; i < 150; i++) {
+		const donut = new THREE.Mesh(donutGeometry, material);
+		donut.position.x = (Math.random() - 0.5) * 20;
+		donut.position.y = (Math.random() - 0.5) * 20;
+		donut.position.z = (Math.random() - 0.5) * 20;
+		donut.rotation.x = Math.random() * Math.PI;
+		donut.rotation.y = Math.random() * Math.PI;
+		const scale = Math.random() * 0.7;
+		donut.scale.set(scale, scale, scale);
+
+		scene.add(donut);
+	}
+	for (let i = 0; i < 500; i++) {
 		const sphere = new THREE.Mesh(
 			sphereGeometry,
-			new THREE.MeshNormalMaterial()
+			new THREE.MeshNormalMaterial(),
 		);
-		sphere.position.x = (Math.random() - 0.5) * 15;
-		sphere.position.y = (Math.random() - 0.5) * 15;
-		sphere.position.z = (Math.random() - 0.5) * 15;
+		sphere.position.x = (Math.random() - 0.5) * 50;
+		sphere.position.y = (Math.random() - 0.5) * 50;
+		sphere.position.z = (Math.random() - 0.5) * 50;
 		sphere.rotation.x = Math.random() * Math.PI;
 		sphere.rotation.y = Math.random() * Math.PI;
 		const scale = Math.random();
@@ -110,17 +104,56 @@ fontLoader.load("/fonts/poly.json", (font) => {
 
 		scene.add(sphere);
 	}
-	for (let i = 0; i < 75; i++) {
+	for (let i = 0; i < 200; i++) {
+		const sphere = new THREE.Mesh(sphereGeometry, material);
+		sphere.position.x = (Math.random() - 0.5) * 30;
+		sphere.position.y = (Math.random() - 0.5) * 30;
+		sphere.position.z = (Math.random() - 0.5) * 30;
+		sphere.rotation.x = Math.random() * Math.PI;
+		sphere.rotation.y = Math.random() * Math.PI;
+		const scale = Math.random() * 0.8;
+		sphere.scale.set(scale, scale, scale);
+
+		scene.add(sphere);
+	}
+	for (let i = 0; i < 400; i++) {
+		const sphere = new THREE.Mesh(
+			sphereGeometry,
+			new THREE.MeshNormalMaterial(),
+		);
+		sphere.position.x = (Math.random() - 0.5) * 15;
+		sphere.position.y = (Math.random() - 0.5) * 15;
+		sphere.position.z = (Math.random() - 0.5) * 15;
+		sphere.rotation.x = Math.random() * Math.PI;
+		sphere.rotation.y = Math.random() * Math.PI;
+		const scale = Math.random() * 0.6;
+		sphere.scale.set(scale, scale, scale);
+
+		scene.add(sphere);
+	}
+	for (let i = 0; i < 300; i++) {
 		const cube = new THREE.Mesh(
 			cubeGeometry,
-			new THREE.MeshNormalMaterial()
+			new THREE.MeshNormalMaterial(),
 		);
+		cube.position.x = (Math.random() - 0.5) * 50;
+		cube.position.y = (Math.random() - 0.5) * 50;
+		cube.position.z = (Math.random() - 0.5) * 50;
+		cube.rotation.x = Math.random() * Math.PI;
+		cube.rotation.y = Math.random() * Math.PI;
+		const scale = Math.random();
+		cube.scale.set(scale, scale, scale);
+
+		scene.add(cube);
+	}
+	for (let i = 0; i < 300; i++) {
+		const cube = new THREE.Mesh(cubeGeometry, material);
 		cube.position.x = (Math.random() - 0.5) * 15;
 		cube.position.y = (Math.random() - 0.5) * 15;
 		cube.position.z = (Math.random() - 0.5) * 15;
 		cube.rotation.x = Math.random() * Math.PI;
 		cube.rotation.y = Math.random() * Math.PI;
-		const scale = Math.random();
+		const scale = Math.random() * 0.7;
 		cube.scale.set(scale, scale, scale);
 
 		scene.add(cube);
@@ -153,7 +186,7 @@ const camera = new THREE.PerspectiveCamera(
 	75,
 	sizes.width / sizes.height,
 	0.1,
-	100
+	100,
 );
 camera.position.x = 0.5;
 camera.position.y = 0.5;
