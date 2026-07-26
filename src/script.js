@@ -5,7 +5,11 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import GUI from "lil-gui";
 
 // Globals
+let loadedfont;
+let textMesh;
+
 const globals = {
+	text: "Happy July",
 	innerSpheresCount: 10,
 	midSphereCount: 10,
 	outerSphereCount: 10,
@@ -40,7 +44,7 @@ const clearStores = () => {
 
 // Debug
 const gui = new GUI({
-	title: "Customize :)",
+	title: "Customize :))",
 	closeFolders: true,
 });
 gui.close();
@@ -73,10 +77,15 @@ const fontLoader = new FontLoader();
 // Material
 const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
-fontLoader.load("/fonts/poly.json", (font) => {
+const renderText = () => {
+	if (textMesh) {
+		scene.remove(textMesh);
+		textMesh.geometry.dispose();
+	}
+
 	// Text
-	const textGeometry = new TextGeometry("Happy July", {
-		font: font,
+	const textGeometry = new TextGeometry(globals.text, {
+		font: loadedfont,
 		size: 0.3,
 		depth: 0.2,
 		curveSegments: 25,
@@ -89,8 +98,13 @@ fontLoader.load("/fonts/poly.json", (font) => {
 	textGeometry.center();
 
 	// const text = new THREE.Mesh(textGeometry, new THREE.MeshNormalMaterial());
-	const text = new THREE.Mesh(textGeometry, material);
-	scene.add(text);
+	textMesh = new THREE.Mesh(textGeometry, material);
+	scene.add(textMesh);
+};
+
+fontLoader.load("/fonts/poly.json", (font) => {
+	loadedfont = font;
+	renderText();
 });
 
 const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64);
@@ -265,6 +279,13 @@ renderShapes();
 
 // Debug GUI
 const shapeCountGUI = gui.addFolder("Shape Counts");
+const textGUI = gui.addFolder("Text");
+textGUI
+	.add(globals, "text")
+	.name("What do you want to say?")
+	.onChange(() => {
+		renderText();
+	});
 const shapeCountProps = [
 	"innerSpheresCount-Inner Spheres",
 	"innerDonutCount-Inner Donuts",
@@ -277,7 +298,7 @@ const shapeCountProps = [
 	"outerCubeCount-OuterCubes",
 ];
 for (const prop of shapeCountProps) {
-	const props = prop.split("-")
+	const props = prop.split("-");
 	shapeCountGUI
 		.add(globals, props[0])
 		.min(50)
