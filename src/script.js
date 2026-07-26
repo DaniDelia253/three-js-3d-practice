@@ -9,7 +9,7 @@ let loadedfont;
 let textMesh;
 
 const globals = {
-	text: "Happy July",
+	text: "happy july",
 	innerSpheresCount: 10,
 	midSphereCount: 10,
 	outerSphereCount: 10,
