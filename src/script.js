@@ -4,12 +4,24 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import GUI from "lil-gui";
 
+// Globals
+const globals = {
+	innerSpheresCount: 0,
+	midSphereCount: 0,
+	outerSphereCount: 0,
+}
+let innerSphereStore = [];
+let midSphereStore = [];
+let outerSphereStore = [];
+
+
 // Debug
 const gui = new GUI({
-	title: "Options",
+	title: "Customize :)",
 	closeFolders: true,
 });
 gui.close();
+
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -36,9 +48,11 @@ matcapTexture.colorSpace = THREE.SRGBColorSpace;
 // Fonts
 const fontLoader = new FontLoader();
 
+// Material
+const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
+
+
 fontLoader.load("/fonts/poly.json", (font) => {
-	// Material
-	const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
 	// Text
 	const textGeometry = new TextGeometry("Happy July", {
@@ -56,13 +70,26 @@ fontLoader.load("/fonts/poly.json", (font) => {
 
 	// const text = new THREE.Mesh(textGeometry, new THREE.MeshNormalMaterial());
 	const text = new THREE.Mesh(textGeometry, material);
-	scene.add(text);
+	scene.add(text);	
+});
 
-	const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64);
-	const sphereGeometry = new THREE.SphereGeometry(0.3, 30, 20);
-	const cubeGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64);
+const sphereGeometry = new THREE.SphereGeometry(0.3, 30, 20);
+const cubeGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
-	for (let i = 0; i < 300; i++) {
+const renderShapes = () => {
+		for (const shape of [...innerSphereStore, ...midSphereStore, ...outerSphereStore]) {
+			scene.remove(shape)
+			shape.geometry.dispose();
+		}
+
+		innerSphereStore.length = 0
+		midSphereStore.length = 0
+		outerSphereStore.length = 0
+
+		console.log(innerSphereStore)
+
+		for (let i = 0; i < 300; i++) {
 		const donut = new THREE.Mesh(
 			donutGeometry,
 			new THREE.MeshNormalMaterial(),
@@ -89,7 +116,7 @@ fontLoader.load("/fonts/poly.json", (font) => {
 
 		scene.add(donut);
 	}
-	for (let i = 0; i < 500; i++) {
+	for (let i = 0; i < globals.outerSphereCount; i++) {
 		const sphere = new THREE.Mesh(
 			sphereGeometry,
 			new THREE.MeshNormalMaterial(),
@@ -102,9 +129,10 @@ fontLoader.load("/fonts/poly.json", (font) => {
 		const scale = Math.random();
 		sphere.scale.set(scale, scale, scale);
 
+		outerSphereStore.push(sphere)
 		scene.add(sphere);
 	}
-	for (let i = 0; i < 200; i++) {
+	for (let i = 0; i < globals.midSphereCount; i++) {
 		const sphere = new THREE.Mesh(sphereGeometry, material);
 		sphere.position.x = (Math.random() - 0.5) * 30;
 		sphere.position.y = (Math.random() - 0.5) * 30;
@@ -114,9 +142,10 @@ fontLoader.load("/fonts/poly.json", (font) => {
 		const scale = Math.random() * 0.8;
 		sphere.scale.set(scale, scale, scale);
 
+		midSphereStore.push(sphere)
 		scene.add(sphere);
 	}
-	for (let i = 0; i < 400; i++) {
+	for (let i = 0; i < globals.innerSpheresCount; i++) {
 		const sphere = new THREE.Mesh(
 			sphereGeometry,
 			new THREE.MeshNormalMaterial(),
@@ -129,6 +158,7 @@ fontLoader.load("/fonts/poly.json", (font) => {
 		const scale = Math.random() * 0.6;
 		sphere.scale.set(scale, scale, scale);
 
+		innerSphereStore.push(sphere)
 		scene.add(sphere);
 	}
 	for (let i = 0; i < 300; i++) {
@@ -158,7 +188,22 @@ fontLoader.load("/fonts/poly.json", (font) => {
 
 		scene.add(cube);
 	}
-});
+}
+
+renderShapes();
+
+// Debug GUI
+const shapeCountGUI = gui.addFolder("Shape Counts")
+shapeCountGUI
+.add(globals, 'innerSpheresCount')
+.min(50)
+.max(5000)
+.step(5)
+.name("Inner Spheres")
+.onFinishChange(() => {
+	renderShapes()
+})
+
 
 // Sizes
 const sizes = {
