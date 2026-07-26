@@ -6,14 +6,37 @@ import GUI from "lil-gui";
 
 // Globals
 const globals = {
-	innerSpheresCount: 0,
-	midSphereCount: 0,
-	outerSphereCount: 0,
-}
-let innerSphereStore = [];
-let midSphereStore = [];
-let outerSphereStore = [];
+	innerSpheresCount: 10,
+	midSphereCount: 10,
+	outerSphereCount: 10,
+	innerDonutCount: 10,
+	midDonutCount: 10,
+	outerDonutCount: 10,
+	innerCubeCount: 10,
+	midCubeCount: 10,
+	outerCubeCount: 10,
+	innerSphereStore: [],
+	midSphereStore: [],
+	outerSphereStore: [],
+	innerDonutStore: [],
+	midDonutStore: [],
+	outerDonutStore: [],
+	innerCubeStore: [],
+	midCubeStore: [],
+	outerCubeStore: [],
+};
 
+const clearStores = () => {
+	globals.innerSphereStore.length = 0;
+	globals.midSphereStore.length = 0;
+	globals.outerSphereStore.length = 0;
+	globals.innerDonutStore.length;
+	globals.midDonutStore.length = 0;
+	globals.outerDonutStore.length = 0;
+	globals.innerCubeStore.length = 0;
+	globals.midCubeStore.length = 0;
+	globals.outerCubeStore.length = 0;
+};
 
 // Debug
 const gui = new GUI({
@@ -21,7 +44,6 @@ const gui = new GUI({
 	closeFolders: true,
 });
 gui.close();
-
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -51,9 +73,7 @@ const fontLoader = new FontLoader();
 // Material
 const material = new THREE.MeshMatcapMaterial({ matcap: matcapTexture });
 
-
 fontLoader.load("/fonts/poly.json", (font) => {
-
 	// Text
 	const textGeometry = new TextGeometry("Happy July", {
 		font: font,
@@ -70,7 +90,7 @@ fontLoader.load("/fonts/poly.json", (font) => {
 
 	// const text = new THREE.Mesh(textGeometry, new THREE.MeshNormalMaterial());
 	const text = new THREE.Mesh(textGeometry, material);
-	scene.add(text);	
+	scene.add(text);
 });
 
 const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 32, 64);
@@ -78,42 +98,69 @@ const sphereGeometry = new THREE.SphereGeometry(0.3, 30, 20);
 const cubeGeometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
 const renderShapes = () => {
-		for (const shape of [...innerSphereStore, ...midSphereStore, ...outerSphereStore]) {
-			scene.remove(shape)
-			shape.geometry.dispose();
-		}
+	for (const shape of [
+		...globals.innerSphereStore,
+		...globals.midSphereStore,
+		...globals.outerSphereStore,
+		...globals.innerDonutStore,
+		...globals.midDonutStore,
+		...globals.outerDonutStore,
+		...globals.innerCubeStore,
+		...globals.midCubeStore,
+		...globals.outerCubeStore,
+	]) {
+		scene.remove(shape);
+		shape.geometry.dispose();
+	}
 
-		innerSphereStore.length = 0
-		midSphereStore.length = 0
-		outerSphereStore.length = 0
+	clearStores();
 
-		console.log(innerSphereStore)
-
-		for (let i = 0; i < 300; i++) {
+	for (let i = 0; i < globals.outerDonutCount; i++) {
 		const donut = new THREE.Mesh(
 			donutGeometry,
 			new THREE.MeshNormalMaterial(),
 		);
-		donut.position.x = (Math.random() - 0.5) * 50;
-		donut.position.y = (Math.random() - 0.5) * 50;
-		donut.position.z = (Math.random() - 0.5) * 50;
+		donut.position.x = (Math.random() - 0.5) * 60;
+		donut.position.y = (Math.random() - 0.5) * 60;
+		donut.position.z = (Math.random() - 0.5) * 60;
 		donut.rotation.x = Math.random() * Math.PI;
 		donut.rotation.y = Math.random() * Math.PI;
 		const scale = Math.random();
 		donut.scale.set(scale, scale, scale);
 
+		globals.outerDonutStore.push(donut);
 		scene.add(donut);
 	}
-	for (let i = 0; i < 150; i++) {
-		const donut = new THREE.Mesh(donutGeometry, material);
-		donut.position.x = (Math.random() - 0.5) * 20;
-		donut.position.y = (Math.random() - 0.5) * 20;
-		donut.position.z = (Math.random() - 0.5) * 20;
+	for (let i = 0; i < globals.midDonutCount; i++) {
+		const donut = new THREE.Mesh(
+			donutGeometry,
+			new THREE.MeshNormalMaterial(),
+		);
+		donut.position.x = (Math.random() - 0.5) * 30;
+		donut.position.y = (Math.random() - 0.5) * 30;
+		donut.position.z = (Math.random() - 0.5) * 30;
 		donut.rotation.x = Math.random() * Math.PI;
 		donut.rotation.y = Math.random() * Math.PI;
-		const scale = Math.random() * 0.7;
+		const scale = Math.random() * 0.8;
 		donut.scale.set(scale, scale, scale);
 
+		globals.midDonutStore.push(donut);
+		scene.add(donut);
+	}
+	for (let i = 0; i < globals.innerDonutCount; i++) {
+		const donut = new THREE.Mesh(
+			donutGeometry,
+			new THREE.MeshNormalMaterial(),
+		);
+		donut.position.x = (Math.random() - 0.5) * 15;
+		donut.position.y = (Math.random() - 0.5) * 15;
+		donut.position.z = (Math.random() - 0.5) * 15;
+		donut.rotation.x = Math.random() * Math.PI;
+		donut.rotation.y = Math.random() * Math.PI;
+		const scale = Math.random() * 0.6;
+		donut.scale.set(scale, scale, scale);
+
+		globals.innerDonutStore.push(donut);
 		scene.add(donut);
 	}
 	for (let i = 0; i < globals.outerSphereCount; i++) {
@@ -121,19 +168,22 @@ const renderShapes = () => {
 			sphereGeometry,
 			new THREE.MeshNormalMaterial(),
 		);
-		sphere.position.x = (Math.random() - 0.5) * 50;
-		sphere.position.y = (Math.random() - 0.5) * 50;
-		sphere.position.z = (Math.random() - 0.5) * 50;
+		sphere.position.x = (Math.random() - 0.5) * 60;
+		sphere.position.y = (Math.random() - 0.5) * 60;
+		sphere.position.z = (Math.random() - 0.5) * 60;
 		sphere.rotation.x = Math.random() * Math.PI;
 		sphere.rotation.y = Math.random() * Math.PI;
 		const scale = Math.random();
 		sphere.scale.set(scale, scale, scale);
 
-		outerSphereStore.push(sphere)
+		globals.outerSphereStore.push(sphere);
 		scene.add(sphere);
 	}
 	for (let i = 0; i < globals.midSphereCount; i++) {
-		const sphere = new THREE.Mesh(sphereGeometry, material);
+		const sphere = new THREE.Mesh(
+			sphereGeometry,
+			new THREE.MeshNormalMaterial(),
+		);
 		sphere.position.x = (Math.random() - 0.5) * 30;
 		sphere.position.y = (Math.random() - 0.5) * 30;
 		sphere.position.z = (Math.random() - 0.5) * 30;
@@ -142,7 +192,7 @@ const renderShapes = () => {
 		const scale = Math.random() * 0.8;
 		sphere.scale.set(scale, scale, scale);
 
-		midSphereStore.push(sphere)
+		globals.midSphereStore.push(sphere);
 		scene.add(sphere);
 	}
 	for (let i = 0; i < globals.innerSpheresCount; i++) {
@@ -158,52 +208,86 @@ const renderShapes = () => {
 		const scale = Math.random() * 0.6;
 		sphere.scale.set(scale, scale, scale);
 
-		innerSphereStore.push(sphere)
+		globals.innerSphereStore.push(sphere);
 		scene.add(sphere);
 	}
-	for (let i = 0; i < 300; i++) {
+	for (let i = 0; i < globals.outerCubeCount; i++) {
 		const cube = new THREE.Mesh(
 			cubeGeometry,
 			new THREE.MeshNormalMaterial(),
 		);
-		cube.position.x = (Math.random() - 0.5) * 50;
-		cube.position.y = (Math.random() - 0.5) * 50;
-		cube.position.z = (Math.random() - 0.5) * 50;
+		cube.position.x = (Math.random() - 0.5) * 60;
+		cube.position.y = (Math.random() - 0.5) * 60;
+		cube.position.z = (Math.random() - 0.5) * 60;
 		cube.rotation.x = Math.random() * Math.PI;
 		cube.rotation.y = Math.random() * Math.PI;
 		const scale = Math.random();
 		cube.scale.set(scale, scale, scale);
 
+		globals.outerCubeStore.push(cube);
 		scene.add(cube);
 	}
-	for (let i = 0; i < 300; i++) {
-		const cube = new THREE.Mesh(cubeGeometry, material);
+	for (let i = 0; i < globals.midCubeCount; i++) {
+		const cube = new THREE.Mesh(
+			cubeGeometry,
+			new THREE.MeshNormalMaterial(),
+		);
+		cube.position.x = (Math.random() - 0.5) * 30;
+		cube.position.y = (Math.random() - 0.5) * 30;
+		cube.position.z = (Math.random() - 0.5) * 30;
+		cube.rotation.x = Math.random() * Math.PI;
+		cube.rotation.y = Math.random() * Math.PI;
+		const scale = Math.random() * 0.8;
+		cube.scale.set(scale, scale, scale);
+
+		globals.midCubeStore.push(cube);
+		scene.add(cube);
+	}
+	for (let i = 0; i < globals.innerCubeCount; i++) {
+		const cube = new THREE.Mesh(
+			cubeGeometry,
+			new THREE.MeshNormalMaterial(),
+		);
 		cube.position.x = (Math.random() - 0.5) * 15;
 		cube.position.y = (Math.random() - 0.5) * 15;
 		cube.position.z = (Math.random() - 0.5) * 15;
 		cube.rotation.x = Math.random() * Math.PI;
 		cube.rotation.y = Math.random() * Math.PI;
-		const scale = Math.random() * 0.7;
+		const scale = Math.random() * 0.6;
 		cube.scale.set(scale, scale, scale);
 
+		globals.innerCubeStore.push(cube);
 		scene.add(cube);
 	}
-}
+};
 
 renderShapes();
 
 // Debug GUI
-const shapeCountGUI = gui.addFolder("Shape Counts")
-shapeCountGUI
-.add(globals, 'innerSpheresCount')
-.min(50)
-.max(5000)
-.step(5)
-.name("Inner Spheres")
-.onFinishChange(() => {
-	renderShapes()
-})
-
+const shapeCountGUI = gui.addFolder("Shape Counts");
+const shapeCountProps = [
+	"innerSpheresCount-Inner Spheres",
+	"innerDonutCount-Inner Donuts",
+	"innerCubeCount-Inner Cubes",
+	"midSphereCount-Middle Spheres",
+	"midDonutCount-Middle Donuts",
+	"midCubeCount-Middle Cubes",
+	"outerSphereCount-Outer Spheres",
+	"outerDonutCount-Outer Donuts",
+	"outerCubeCount-OuterCubes",
+];
+for (const prop of shapeCountProps) {
+	const props = prop.split("-")
+	shapeCountGUI
+		.add(globals, props[0])
+		.min(50)
+		.max(5000)
+		.step(5)
+		.name(props[1])
+		.onFinishChange(() => {
+			renderShapes();
+		});
+}
 
 // Sizes
 const sizes = {
